@@ -1,0 +1,17 @@
+# Routes
+
+# This file defines all application routes (Higher priority routes first)
+
+# https://www.playframework.com/documentation/latest/ScalaRouting
+
+# Example controller showing a sample home page
+
+GET / controllers.HomeController.index()
+
+# Users Routes
+
+GET /api/users controllers.UserController.getUsers
+GET /api/users/:id controllers.UserController.getUser(id: Long)
+POST /api/users controllers.UserController.createUser
+PUT /api/users/:id controllers.UserController.updateUser(id: Long)
+DELETE /api/users/:id controllers.UserController.deleteUser(id: Long)
