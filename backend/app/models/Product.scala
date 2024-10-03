@@ -7,16 +7,15 @@ import java.time.LocalDateTime
 case class Product(
   id: String,
   name: String,
-  price: String, // Assume this is java.math.BigDecimal from database
+  price: String, 
   status: String,
   coverUrl: String,
   colors: String,
-  priceSale: String, // Option for nullable priceSale
+  priceSale: String, 
   createdAt: String
 )
 
 object Product {
-  // JSON serializer for Product
   implicit val productWrites: Writes[Product] = new Writes[Product] {
     def writes(product: Product): JsValue = Json.obj(
       "id" -> product.id,

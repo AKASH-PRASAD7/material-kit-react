@@ -21,3 +21,12 @@ POST /api/signin controllers.UserController.signIn
 
 POST /api/products controllers.ProductController.createProduct
 GET /api/products controllers.ProductController.getAllProducts
+
+# Blog Routes
+
+POST /api/blogs controllers.BlogController.createBlog
+GET /api/blogs controllers.BlogController.getAllBlogs
+
+# Dashboard Route
+
+GET /api/dashboard controllers.DashboardController.getDashboard

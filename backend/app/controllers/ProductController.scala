@@ -58,12 +58,12 @@ class ProductController @Inject()(cc: ControllerComponents, dbUtil: DatabaseUtil
       val product = Product(
         id = rs.getString("id"),
         name = rs.getString("name"),
-        price = rs.getString("price"), // Assume price is a string
+        price = rs.getString("price"), 
         status = rs.getString("status"),
         coverUrl = rs.getString("coverurl"),
         colors = rs.getString("colors"),
-        priceSale = rs.getString("pricesale"), // Assume priceSale is a string
-        createdAt = rs.getString("created_at") // Ensure createdAt is populated
+        priceSale = rs.getString("pricesale"), 
+        createdAt = rs.getString("created_at") 
       )
       products += product
     }
