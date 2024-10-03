@@ -2,7 +2,7 @@
 
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
 
-![preview](public/assets/images/minimal-free-preview.jpg)
+![preview](client/public/assets/images/minimal-free-preview.jpg)
 
 > Free React Admin Dashboard made with Material-UI components and React + Vite.js.
 
@@ -17,7 +17,7 @@
 
 ## Quick start
 
-- Clone the repo: `git clone https://github.com/minimal-ui-kit/material-kit-react.git`
+- Clone the repo: `git clone [https://github.com/minimal-ui-kit/material-kit-react.git](https://github.com/AKASH-PRASAD7/material-kit-react.git)`
 - Recommended: `Node.js v20.x`
 - **Install:** `npm i` or `yarn install`
 - **Start:** `npm run dev` or `yarn dev`
