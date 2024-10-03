@@ -43,9 +43,10 @@ export function Router() {
         </DashboardLayout>
       ),
       children: [
-        { element: <HomePage />, index: true },
+        { element: <ProductsPage />, index: true },
+        { path: 'dasboard', element: <HomePage /> },
         { path: 'user', element: <UserPage /> },
-        { path: 'products', element: <ProductsPage /> },
+
         { path: 'blog', element: <BlogPage /> },
       ],
     },
