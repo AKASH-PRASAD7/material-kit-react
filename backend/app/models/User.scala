@@ -1,7 +1,17 @@
-case class User(id: Option[Int], name: String, email: String, password: String, role: String)
+package models
+
+import scala.collection.mutable
+
+case class User(name: String, email: String, hashedPassword: String, role: String)
 
 object User {
-  import play.api.libs.json._
+  private val users = mutable.Map[String, User]()
 
-  implicit val userFormat: OFormat[User] = Json.format[User]
+  def create(name: String, email: String, hashedPassword: String, role: String): Unit = {
+    users(email) = User(name, email, hashedPassword, role)
+  }
+
+  def findByEmail(email: String): Option[User] = {
+    users.get(email)
+  }
 }

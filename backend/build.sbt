@@ -1,4 +1,4 @@
-name := """fdgfd"""
+name := """backend"""
 organization := "com.example"
 
 version := "1.0-SNAPSHOT"
@@ -22,6 +22,8 @@ libraryDependencies ++= Seq(
 
 resolvers += "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
 dependencyOverrides += "org.scala-lang.modules" %% "scala-xml" % "2.2.0"
+// libraryDependencies += "com.auth0" % "java-jwt" % "4.4.0"
+
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "com.example.controllers._"
 

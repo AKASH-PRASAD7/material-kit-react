@@ -1,3 +1,4 @@
+
 package controllers
 
 import javax.inject._
@@ -32,6 +33,7 @@ class UserController @Inject()(cc: ControllerComponents, dbUtil: DatabaseUtil) e
       stmt.executeUpdate()
 
       Ok(Json.obj("status" -> "success", "message" -> "User registered successfully"))
+      .withCookies(Cookie("name", name),Cookie("email", email), Cookie("role", role))
     } catch {
       case e: Exception =>
         InternalServerError(Json.obj("status" -> "error", "message" -> "User registration failed"))
@@ -58,6 +60,7 @@ class UserController @Inject()(cc: ControllerComponents, dbUtil: DatabaseUtil) e
 
         if (isPasswordValid) {
           Ok(Json.obj("status" -> "success", "message" -> "User signed in successfully", "role" -> rs.getString("role")))
+          .withCookies(Cookie("name", rs.getString("name")),Cookie("email", email), Cookie("role", rs.getString("role")))
         } else {
           Unauthorized(Json.obj("status" -> "error", "message" -> "Invalid credentials"))
         }
