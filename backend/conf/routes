@@ -16,6 +16,8 @@ GET /api/test-connection controllers.DatabaseController.testConnection
 
 POST /api/signup controllers.UserController.signUp
 POST /api/signin controllers.UserController.signIn
+GET /api/users controllers.UserController.getAllUsers
+PUT /api/user/update controllers.UserController.updateUserRole
 
 # Products Routes
 
