@@ -17,7 +17,7 @@
 
 ## Quick start
 
-- Clone the repo: `git clone [https://github.com/minimal-ui-kit/material-kit-react.git](https://github.com/AKASH-PRASAD7/material-kit-react.git)`
+- Clone the repo: `git clone https://github.com/minimal-ui-kit/material-kit-react.git`
 - Recommended: `Node.js v20.x`
 - **Install:** `npm i` or `yarn install`
 - **Start:** `npm run dev` or `yarn dev`
