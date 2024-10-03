@@ -8,10 +8,11 @@
 
 GET / controllers.HomeController.index()
 
+# Database Check Route
+
+GET /api/test-connection controllers.DatabaseController.testConnection
+
 # Users Routes
 
-GET /api/users controllers.UserController.getUsers
-GET /api/users/:id controllers.UserController.getUser(id: Long)
-POST /api/users controllers.UserController.createUser
-PUT /api/users/:id controllers.UserController.updateUser(id: Long)
-DELETE /api/users/:id controllers.UserController.deleteUser(id: Long)
+POST /api/signup controllers.UserController.signUp
+POST /api/signin controllers.UserController.signIn

@@ -2,29 +2,73 @@ package controllers
 
 import javax.inject._
 import play.api.mvc._
+import play.api.libs.json._
+import utils.DatabaseUtil
+import utils.PasswordUtil
+import java.sql.Connection
 
-@Inject
-class UserController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+@Singleton
+class UserController @Inject()(cc: ControllerComponents, dbUtil: DatabaseUtil) extends AbstractController(cc) {
 
-  def getUsers = Action {
-    Ok("List of users")
+  // Sign Up API
+  def signUp = Action(parse.json) { implicit request =>
+    val name = (request.body \ "name").as[String]
+    val email = (request.body \ "email").as[String]
+    val password = (request.body \ "password").as[String]
+    val role = "user" // Assign default role
+
+    val hashedPassword = PasswordUtil.hashPassword(password)
+
+    val connection: Connection = dbUtil.getConnection.get
+
+    try {
+      val stmt = connection.prepareStatement(
+        "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)"
+      )
+      stmt.setString(1, name)
+      stmt.setString(2, email)
+      stmt.setString(3, hashedPassword)
+      stmt.setString(4, role)
+      stmt.executeUpdate()
+
+      Ok(Json.obj("status" -> "success", "message" -> "User registered successfully"))
+    } catch {
+      case e: Exception =>
+        InternalServerError(Json.obj("status" -> "error", "message" -> "User registration failed"))
+    } finally {
+      dbUtil.closeConnection(connection)
+    }
   }
 
-  def getUser(id: Long) = Action {
-    Ok(s"Details of user with id $id")
-  }
+  // Sign In API
+  def signIn = Action(parse.json) { implicit request =>
+    val email = (request.body \ "email").as[String]
+    val password = (request.body \ "password").as[String]
 
-  def createUser = Action { request =>
-    val userData = request.body.asJson.get
-    Ok(s"User created with data: $userData")
-  }
+    val connection: Connection = dbUtil.getConnection.get
 
-  def updateUser(id: Long) = Action { request =>
-    val updatedData = request.body.asJson.get
-    Ok(s"User with id $id updated with data: $updatedData")
-  }
+    try {
+      val stmt = connection.prepareStatement("SELECT * FROM users WHERE email = ?")
+      stmt.setString(1, email)
+      val rs = stmt.executeQuery()
 
-  def deleteUser(id: Long) = Action {
-    Ok(s"User with id $id deleted")
+      if (rs.next()) {
+        val hashedPassword = rs.getString("password")
+        val isPasswordValid = PasswordUtil.checkPassword(password, hashedPassword)
+
+        if (isPasswordValid) {
+          Ok(Json.obj("status" -> "success", "message" -> "User signed in successfully", "role" -> rs.getString("role")))
+        } else {
+          Unauthorized(Json.obj("status" -> "error", "message" -> "Invalid credentials"))
+        }
+      } else {
+        NotFound(Json.obj("status" -> "error", "message" -> "User not found"))
+      }
+    } catch {
+      case e: Exception =>
+        InternalServerError(Json.obj("status" -> "error", "message" -> "Sign in failed"))
+    } finally {
+      dbUtil.closeConnection(connection)
+    }
   }
 }

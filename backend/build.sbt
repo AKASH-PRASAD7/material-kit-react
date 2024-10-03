@@ -9,7 +9,19 @@ scalaVersion := "2.13.15"
 
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.1" % Test
+libraryDependencies += "org.mindrot" % "jbcrypt" % "0.4"
 
+// libraryDependencies ++= Seq(
+//   "org.postgresql" % "postgresql" % "42.3.1",
+// )
+
+libraryDependencies ++= Seq(
+  "com.typesafe.play" %% "play-slick" % "5.0.0",
+  "org.postgresql" % "postgresql" % "42.5.1"
+)
+
+resolvers += "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
+dependencyOverrides += "org.scala-lang.modules" %% "scala-xml" % "2.2.0"
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "com.example.controllers._"
 
