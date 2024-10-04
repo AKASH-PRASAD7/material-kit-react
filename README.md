@@ -1,17 +1,23 @@
-# Project Name: Scala Play Framework Backend with React Frontend
+# Scala Play Framework Backend with React Frontend (Role-Based Access Control)
 
 ![preview](/client/public/assets/images/minimal-free-preview.jpg)
 
 ## Overview
 
-This is a simple full-stack project consisting of a **backend** built using the **Scala Play Framework** and a **frontend** developed using **Vite, React, and Material UI (MUI)**. The backend interacts with a PostgreSQL database hosted on **Neon Cloud** for user authentication, blog management, product management, and a dashboard API for data visualization.
+This is a simple full-stack project consisting of a **backend** built using the **Scala Play Framework** and a **frontend** developed using **Vite, React, and Material UI (MUI)**. The backend interacts with a PostgreSQL database hosted on **Neon Cloud** for user authentication and role-based access control.
 
 ---
 
 ## Table of Contents
 
-- [Technologies Used](#technologies-used)
+- [Problems](#problems)
+
+  - [User Role Management](#user-role-management)
+    - [User Roles and Access Permissions](#user-roles-and-access-permissions)
+    - [Implementation Details](#implementation-details)
+
 - [Features](#features)
+- [Technologies Used](#technologies-used)
 - [Project Structure](#project-structure)
 - [Backend Setup](#backend-setup)
 - [Frontend Setup](#frontend-setup)
@@ -20,6 +26,90 @@ This is a simple full-stack project consisting of a **backend** built using the 
 - [Running the Project](#running-the-project)
 
 ---
+
+## Problems
+
+### User Role Management
+
+In this project, a comprehensive user role management system has been implemented to ensure that users have appropriate access to various parts of the application based on their roles. This system enhances security and streamlines user interactions by restricting access to functionalities that are not relevant to a user's responsibilities.
+
+#### **User Roles and Access Permissions:**
+
+1. **Admin**
+
+   - **Accessible Pages**:
+     - `/users`: Manage all users, assign roles, and oversee user activities.
+     - `/products`: Create, view, update, and delete products.
+     - `/blog`: Create, view, update, and delete blog posts.
+     - `/dashboard`: Access comprehensive dashboard data and analytics.
+   - **Permissions**:
+     - Full access to all backend APIs and frontend pages.
+     - Ability to perform CRUD operations on users, products, and blogs.
+     - Access to all dashboard features for data visualization and management.
+
+2. **Operations**
+
+   - **Accessible Pages**:
+     - `/products`: View and manage product listings.
+     - `/blog`: View and manage blog posts.
+     - `/dashboard`: Access operational dashboard data.
+   - **Permissions**:
+     - Can create and edit products and blogs.
+     - View dashboard analytics relevant to operations.
+     - Cannot manage user roles or access user management features.
+
+3. **Sales**
+
+   - **Accessible Pages**:
+     - `/products`: View and manage product listings.
+     - `/blog`: View and manage blog posts.
+   - **Permissions**:
+     - Can create and edit products and blogs.
+     - Limited access to dashboard data, focusing on sales-related metrics.
+     - Cannot access user management or broader dashboard features.
+
+4. **User**
+   - **Accessible Pages**:
+     - `/products`: View product listings.
+   - **Permissions**:
+     - Can view products and related details.
+     - No permissions to create, edit, or delete any content.
+     - Cannot access blogs, dashboard, or user management features.
+
+#### **Implementation Details:**
+
+- **Role-Based Routing**: The frontend utilizes protected routes that check the user's role before granting access to specific pages. Unauthorized access attempts are redirected to appropriate fallback pages or shown error messages.
+- **Backend Authorization**: The Scala Play Framework backend enforces role-based access control by verifying user roles before processing API requests. This ensures that even if frontend protections are bypassed, the backend remains secure.
+
+- **Scalability**: The system is designed to easily incorporate additional roles or modify existing permissions as the application evolves.
+
+---
+
+## Features
+
+### Authentication with Cookie-Based Sessions:
+
+- **User Authentication**:
+  - Sign In & Sign Up: Users can register or log in to the system. After successful login, an HTTP-only cookie is used to store session information, ensuring security against common attacks like XSS.
+  - Cookie-Based Authentication: The Play Framework handles user authentication using cookies, which are automatically sent with every request to verify the user's session without exposing sensitive data.
+- **Role Management and Authorization:**:
+
+  - Update User Role (Admin Only): Only admin users have the capability to update the roles of other users. This feature is essential for controlling access to different parts of the system.
+
+  - Role-Based Data Access: Depending on the user's role (admin, operations, sales, or user), different levels of access are granted
+    - **Admin**: Access to all data (users, products, blogs, and dashboard).
+    - **Operations**: Access to products, blogs, and the operational dashboard.
+    - **Sales**: Access to products and blogs only.
+    - **User**: Access only to the product listings.
+
+- Data Retrieval Based on Role:
+  - Get All Products, Blogs, Dashboard, and Users: Users can retrieve data depending on their role:
+    - Admin can view all user data, products, blogs, and dashboard metrics.
+    - Operations can access products, blogs, and operational dashboard data.
+    - Sales can view products and blogs.
+    - Users can only see product listings.
+
+The backend ensures that users without the proper permissions cannot access restricted routes, while the frontend presents an interface tailored to the user's role.
 
 ## Technologies Used
 
@@ -34,32 +124,7 @@ This is a simple full-stack project consisting of a **backend** built using the 
 - **Vite**: Fast development build tool optimized for modern web projects.
 - **React**: JavaScript library for building the user interface.
 - **Material UI (MUI)**: React components for faster and easier web development.
-
----
-
-## Features
-
-### Backend Features:
-
-- **User Authentication**:
-  - Sign Up, Sign In
-  - Role-based authorization (admin, sales, operations, user)
-- **Product Management**:
-  - Create and list products
-- **Blog Management**:
-  - Create and list blogs
-- **Dashboard API**:
-  - Provides hardcoded data for frontend dashboard
-- **Database Connection Test**:
-  - Route to check database connectivity
-
-### Frontend Features:
-
-- **User-Friendly Interface** built using React and Material UI
-- **Interacts with Backend** via API for handling users, products, blogs, and dashboard data
-- **Role-Based Access Control** for different user roles
-- **Authentication**:
-  - Sign Up, Sign In, Sign Out
+- **Axios**: Promise-based HTTP client for making API requests.
 
 ---
 
@@ -169,6 +234,12 @@ This is a simple full-stack project consisting of a **backend** built using the 
 
 ---
 
+## Database Schema
+
+_Details about the database schema can be added here, including tables, relationships, and sample data._
+
+---
+
 ## Running the Project
 
 ### Backend:
@@ -181,7 +252,7 @@ This is a simple full-stack project consisting of a **backend** built using the 
 
 ### Frontend:
 
-- Navigate to the `client/` folder and start the frontend:
+- Navigate to the `frontend/` folder and start the frontend:
   ```bash
   npm run dev
   ```
