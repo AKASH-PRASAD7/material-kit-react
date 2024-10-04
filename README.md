@@ -44,8 +44,7 @@ In this project, a comprehensive user role management system has been implemente
      - `/dashboard`: Access comprehensive dashboard data and analytics.
    - **Permissions**:
      - Full access to all backend APIs and frontend pages.
-     - Ability to perform CRUD operations on users, products, and blogs.
-     - Access to all dashboard features for data visualization and management.
+     - Ability to update user roles and manage user data.
 
 2. **Operations**
 
@@ -54,7 +53,6 @@ In this project, a comprehensive user role management system has been implemente
      - `/blog`: View and manage blog posts.
      - `/dashboard`: Access operational dashboard data.
    - **Permissions**:
-     - Can create and edit products and blogs.
      - View dashboard analytics relevant to operations.
      - Cannot manage user roles or access user management features.
 
@@ -64,7 +62,6 @@ In this project, a comprehensive user role management system has been implemente
      - `/products`: View and manage product listings.
      - `/blog`: View and manage blog posts.
    - **Permissions**:
-     - Can create and edit products and blogs.
      - Limited access to dashboard data, focusing on sales-related metrics.
      - Cannot access user management or broader dashboard features.
 
@@ -73,7 +70,6 @@ In this project, a comprehensive user role management system has been implemente
      - `/products`: View product listings.
    - **Permissions**:
      - Can view products and related details.
-     - No permissions to create, edit, or delete any content.
      - Cannot access blogs, dashboard, or user management features.
 
 #### **Implementation Details:**
