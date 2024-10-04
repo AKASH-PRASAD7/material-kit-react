@@ -1,6 +1,11 @@
 # Scala Play Framework Backend with React Frontend (Role-Based Access Control)
 
-![preview](/client/public/assets/images/minimal-free-preview.jpg)
+## Screenshots
+
+![image](https://github.com/user-attachments/assets/0384cf6b-50eb-4bb4-ab53-22db7dbb718c)
+![image](https://github.com/user-attachments/assets/33d9f26d-f041-4a09-9580-44cdb52099ec)
+![image](https://github.com/user-attachments/assets/835ddd29-8513-4bbc-a844-56f992d59dbb)
+![image](https://github.com/user-attachments/assets/ee81205f-7a07-43ec-a11d-23c027faae90)
 
 ## Overview
 
