@@ -93,32 +93,17 @@ This is a simple full-stack project consisting of a **backend** built using the 
 1. **Clone the Project**:
 
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/AKASH-PRASAD7/material-kit-react.git
    cd backend
    ```
 
-2. **Set Up PostgreSQL**:
-
-   - Create a PostgreSQL database using **Neon Cloud**.
-   - Note the database credentials: `DB_URL`, `DB_USER`, `DB_PASSWORD`.
-
-3. **Configure Database**:
-
-   - Update the `application.conf` in the `backend/conf/` directory:
-     ```hocon
-     db.default.driver = org.postgresql.Driver
-     db.default.url = "jdbc:postgresql://<DB_URL>/<DB_NAME>"
-     db.default.username = "<DB_USER>"
-     db.default.password = "<DB_PASSWORD>"
-     ```
-
-4. **Run the Backend**:
+2. **Run the Backend**:
 
    ```bash
    sbt run
    ```
 
-5. **Access the API**:
+3. **Access the API**:
    The backend API should now be available at `http://localhost:9000`.
 
 ---
@@ -151,7 +136,7 @@ This is a simple full-stack project consisting of a **backend** built using the 
    ```
 
 4. **Access the Frontend**:
-   The frontend should be running on `http://localhost:3000`.
+   The frontend should be running on `http://localhost:3039`.
 
 ---
 
