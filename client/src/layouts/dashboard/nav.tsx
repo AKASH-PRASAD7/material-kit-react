@@ -17,7 +17,6 @@ import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
 
 import { NavUpgrade } from '../components/nav-upgrade';
-import { WorkspacesPopover } from '../components/workspaces-popover';
 
 import type { WorkspacesPopoverProps } from '../components/workspaces-popover';
 
@@ -29,6 +28,7 @@ export type NavContentProps = {
     title: string;
     icon: React.ReactNode;
     info?: React.ReactNode;
+    show?: boolean;
   }[];
   slots?: {
     topArea?: React.ReactNode;
@@ -36,6 +36,7 @@ export type NavContentProps = {
   };
   workspaces: WorkspacesPopoverProps['data'];
   sx?: SxProps<Theme>;
+  showLogin?: boolean;
 };
 
 export function NavDesktop({
@@ -44,6 +45,7 @@ export function NavDesktop({
   slots,
   workspaces,
   layoutQuery,
+  showLogin,
 }: NavContentProps & { layoutQuery: Breakpoint }) {
   const theme = useTheme();
 
@@ -68,7 +70,7 @@ export function NavDesktop({
         ...sx,
       }}
     >
-      <NavContent data={data} slots={slots} workspaces={workspaces} />
+      <NavContent data={data} slots={slots} showLogin={showLogin} workspaces={workspaces} />
     </Box>
   );
 }
@@ -82,6 +84,7 @@ export function NavMobile({
   slots,
   onClose,
   workspaces,
+  showLogin,
 }: NavContentProps & { open: boolean; onClose: () => void }) {
   const pathname = usePathname();
 
@@ -107,14 +110,14 @@ export function NavMobile({
         },
       }}
     >
-      <NavContent data={data} slots={slots} workspaces={workspaces} />
+      <NavContent data={data} slots={slots} showLogin={showLogin} workspaces={workspaces} />
     </Drawer>
   );
 }
 
 // ----------------------------------------------------------------------
 
-export function NavContent({ data, slots, workspaces, sx }: NavContentProps) {
+export function NavContent({ data, slots, workspaces, showLogin, sx }: NavContentProps) {
   const pathname = usePathname();
 
   return (
@@ -123,51 +126,51 @@ export function NavContent({ data, slots, workspaces, sx }: NavContentProps) {
 
       {slots?.topArea}
 
-      <WorkspacesPopover data={workspaces} sx={{ my: 2 }} />
-
       <Scrollbar fillContent>
         <Box component="nav" display="flex" flex="1 1 auto" flexDirection="column" sx={sx}>
           <Box component="ul" gap={0.5} display="flex" flexDirection="column">
             {data.map((item) => {
               const isActived = item.path === pathname;
-
+              const shouldShow = item.path === '/sign-in' ? showLogin : item.show;
               return (
-                <ListItem disableGutters disablePadding key={item.title}>
-                  <ListItemButton
-                    disableGutters
-                    component={RouterLink}
-                    href={item.path}
-                    sx={{
-                      pl: 2,
-                      py: 1,
-                      gap: 2,
-                      pr: 1.5,
-                      borderRadius: 0.75,
-                      typography: 'body2',
-                      fontWeight: 'fontWeightMedium',
-                      color: 'var(--layout-nav-item-color)',
-                      minHeight: 'var(--layout-nav-item-height)',
-                      ...(isActived && {
-                        fontWeight: 'fontWeightSemiBold',
-                        bgcolor: 'var(--layout-nav-item-active-bg)',
-                        color: 'var(--layout-nav-item-active-color)',
-                        '&:hover': {
-                          bgcolor: 'var(--layout-nav-item-hover-bg)',
-                        },
-                      }),
-                    }}
-                  >
-                    <Box component="span" sx={{ width: 24, height: 24 }}>
-                      {item.icon}
-                    </Box>
+                shouldShow && (
+                  <ListItem disableGutters disablePadding key={item.title}>
+                    <ListItemButton
+                      disableGutters
+                      component={RouterLink}
+                      href={item.path}
+                      sx={{
+                        pl: 2,
+                        py: 1,
+                        gap: 2,
+                        pr: 1.5,
+                        borderRadius: 0.75,
+                        typography: 'body2',
+                        fontWeight: 'fontWeightMedium',
+                        color: 'var(--layout-nav-item-color)',
+                        minHeight: 'var(--layout-nav-item-height)',
+                        ...(isActived && {
+                          fontWeight: 'fontWeightSemiBold',
+                          bgcolor: 'var(--layout-nav-item-active-bg)',
+                          color: 'var(--layout-nav-item-active-color)',
+                          '&:hover': {
+                            bgcolor: 'var(--layout-nav-item-hover-bg)',
+                          },
+                        }),
+                      }}
+                    >
+                      <Box component="span" sx={{ width: 24, height: 24 }}>
+                        {item.icon}
+                      </Box>
 
-                    <Box component="span" flexGrow={1}>
-                      {item.title}
-                    </Box>
+                      <Box component="span" flexGrow={1}>
+                        {item.title}
+                      </Box>
 
-                    {item.info && item.info}
-                  </ListItemButton>
-                </ListItem>
+                      {item.info && item.info}
+                    </ListItemButton>
+                  </ListItem>
+                )
               );
             })}
           </Box>

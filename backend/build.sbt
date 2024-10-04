@@ -20,7 +20,12 @@ libraryDependencies ++= Seq(
   "org.postgresql" % "postgresql" % "42.5.1"
 )
 
-resolvers += "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
+resolvers ++= Seq(
+  "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/",
+  "Maven Central" at "https://repo1.maven.org/maven2/"
+)
+
+// Handle Scala XML dependency
 dependencyOverrides += "org.scala-lang.modules" %% "scala-xml" % "2.2.0"
 // libraryDependencies += "com.auth0" % "java-jwt" % "4.4.0"
 

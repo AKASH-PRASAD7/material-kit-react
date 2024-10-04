@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { fCurrency } from 'src/utils/format-number';
 
 import { Label } from 'src/components/label';
-import { ColorPreview } from 'src/components/color-utils';
+// import { ColorPreview } from 'src/components/color-utils';
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ export function ProductItem({ product }: { product: ProductItemProps }) {
     <Box
       component="img"
       alt={product.name}
-      src={product.coverUrl}
+      src={`/assets/images/product/${product.coverUrl}`}
       sx={{
         top: 0,
         width: 1,
@@ -84,7 +84,7 @@ export function ProductItem({ product }: { product: ProductItemProps }) {
         </Link>
 
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <ColorPreview colors={product.colors} />
+          {/* <ColorPreview colors={product.colors} /> */}
           {renderPrice}
         </Box>
       </Stack>

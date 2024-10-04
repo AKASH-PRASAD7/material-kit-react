@@ -1,71 +1,76 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import Pagination from '@mui/material/Pagination';
 
 import { _posts } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
-
-import { Iconify } from 'src/components/iconify';
-
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { PostItem } from '../post-item';
-import { PostSort } from '../post-sort';
-import { PostSearch } from '../post-search';
 
 // ----------------------------------------------------------------------
-
+interface Blog {
+  id: string;
+  title: string;
+  coverUrl: string;
+  totalViews: number;
+  description: string;
+  totalShares: number;
+  totalComments: number;
+  totalFavorites: number;
+  postedAt: string | number | null;
+  name: string;
+  avatarUrl: string;
+}
 export function BlogView() {
-  const [sortBy, setSortBy] = useState('latest');
+  const [blogs, setBlogs] = useState<Blog[] | undefined>(undefined);
 
-  const handleSort = useCallback((newSort: string) => {
-    setSortBy(newSort);
+  const fetchBlogs = useCallback(async () => {
+    try {
+      const response = await axios.get('http://localhost:9000/api/blogs', {
+        headers: {
+          roles: `${Cookies.get('role')}`,
+        },
+      });
+      setBlogs(response.data);
+    } catch (error) {
+      console.error('Error fetching blogs', error.message);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
 
   return (
     <DashboardContent>
       <Box display="flex" alignItems="center" mb={5}>
         <Typography variant="h4" flexGrow={1}>
-          Blog
+          Blogs
         </Typography>
-        <Button
-          variant="contained"
-          color="inherit"
-          startIcon={<Iconify icon="mingcute:add-line" />}
-        >
-          New post
-        </Button>
-      </Box>
-
-      <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ mb: 5 }}>
-        <PostSearch posts={_posts} />
-        <PostSort
-          sortBy={sortBy}
-          onSort={handleSort}
-          options={[
-            { value: 'latest', label: 'Latest' },
-            { value: 'popular', label: 'Popular' },
-            { value: 'oldest', label: 'Oldest' },
-          ]}
-        />
       </Box>
 
       <Grid container spacing={3}>
-        {_posts.map((post, index) => {
-          const latestPostLarge = index === 0;
-          const latestPost = index === 1 || index === 2;
+        {blogs &&
+          blogs.map((post, index) => {
+            const latestPostLarge = index === 0;
+            const latestPost = index === 1 || index === 2;
 
-          return (
-            <Grid key={post.id} xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
-              <PostItem post={post} latestPost={latestPost} latestPostLarge={latestPostLarge} />
-            </Grid>
-          );
-        })}
+            return (
+              <Grid
+                key={post.id}
+                xs={12}
+                sm={latestPostLarge ? 12 : 6}
+                md={latestPostLarge ? 6 : 3}
+              >
+                <PostItem post={post} latestPost={latestPost} latestPostLarge={latestPostLarge} />
+              </Grid>
+            );
+          })}
       </Grid>
-
-      <Pagination count={10} color="primary" sx={{ mt: 8, mx: 'auto' }} />
     </DashboardContent>
   );
 }

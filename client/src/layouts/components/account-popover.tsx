@@ -11,6 +11,7 @@ import MenuList from '@mui/material/MenuList';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuItem, { menuItemClasses } from '@mui/material/MenuItem';
+import Cookies from 'js-cookie';
 
 import { useRouter, usePathname } from 'src/routes/hooks';
 
@@ -25,10 +26,19 @@ export type AccountPopoverProps = IconButtonProps & {
     icon?: React.ReactNode;
     info?: React.ReactNode;
   }[];
+  setShowAccountPopover?: (show: boolean) => void;
 };
 
-export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps) {
+export function AccountPopover({
+  data = [],
+  sx,
+  setShowAccountPopover,
+  ...other
+}: AccountPopoverProps) {
   const router = useRouter();
+
+  const name = Cookies.get('name');
+  const email = Cookies.get('email');
 
   const pathname = usePathname();
 
@@ -64,8 +74,8 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
         }}
         {...other}
       >
-        <Avatar src={_myAccount.photoURL} alt={_myAccount.displayName} sx={{ width: 1, height: 1 }}>
-          {_myAccount.displayName.charAt(0).toUpperCase()}
+        <Avatar src="/assets/images/avatar/avatar-23.webp" alt={name} sx={{ width: 1, height: 1 }}>
+          {name && name.charAt(0).toUpperCase()}
         </Avatar>
       </IconButton>
 
@@ -83,11 +93,11 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
       >
         <Box sx={{ p: 2, pb: 1.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {_myAccount?.displayName}
+            {name}
           </Typography>
 
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {_myAccount?.email}
+            {email}
           </Typography>
         </Box>
 
@@ -129,7 +139,20 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth color="error" size="medium" variant="text">
+          <Button
+            onClick={() => {
+              Cookies.remove('name');
+              Cookies.remove('email');
+              Cookies.remove('role');
+              if (setShowAccountPopover) {
+                setShowAccountPopover(false);
+              }
+            }}
+            fullWidth
+            color="error"
+            size="medium"
+            variant="text"
+          >
             Logout
           </Button>
         </Box>

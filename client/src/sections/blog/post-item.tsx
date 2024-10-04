@@ -26,10 +26,8 @@ export type PostItemProps = {
   totalComments: number;
   totalFavorites: number;
   postedAt: string | number | null;
-  author: {
-    name: string;
-    avatarUrl: string;
-  };
+  name: string;
+  avatarUrl: string;
 };
 
 export function PostItem({
@@ -45,8 +43,8 @@ export function PostItem({
 }) {
   const renderAvatar = (
     <Avatar
-      alt={post.author.name}
-      src={post.author.avatarUrl}
+      alt={post.name}
+      src={`/assets/images/avatar/${post.avatarUrl}`}
       sx={{
         left: 24,
         zIndex: 9,
@@ -117,7 +115,7 @@ export function PostItem({
     <Box
       component="img"
       alt={post.title}
-      src={post.coverUrl}
+      src={`/assets/images/cover/${post.coverUrl}`}
       sx={{
         top: 0,
         width: 1,

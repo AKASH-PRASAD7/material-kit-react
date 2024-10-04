@@ -33,7 +33,7 @@ class UserController @Inject()(cc: ControllerComponents, dbUtil: DatabaseUtil) e
       stmt.executeUpdate()
 
       Ok(Json.obj("status" -> "success", "message" -> "User registered successfully"))
-      .withCookies(Cookie("name", name),Cookie("email", email), Cookie("role", role))
+      .withCookies(Cookie("name", name,httpOnly = false, secure = true, sameSite = Some(Cookie.SameSite.None), path = "/"),Cookie("email", email,httpOnly = false, secure = true, sameSite = Some(Cookie.SameSite.None), path = "/"), Cookie("role", role,httpOnly = false, secure = true, sameSite = Some(Cookie.SameSite.None), path = "/"))
     } catch {
       case e: Exception =>
         InternalServerError(Json.obj("status" -> "error", "message" -> "User registration failed"))
@@ -60,7 +60,7 @@ class UserController @Inject()(cc: ControllerComponents, dbUtil: DatabaseUtil) e
 
         if (isPasswordValid) {
           Ok(Json.obj("status" -> "success", "message" -> "User signed in successfully", "role" -> rs.getString("role")))
-          .withCookies(Cookie("name", rs.getString("name")),Cookie("email", email), Cookie("role", rs.getString("role")))
+          .withCookies(Cookie("name", rs.getString("name"),httpOnly = false, secure = true, sameSite = Some(Cookie.SameSite.None), path = "/"),Cookie("email", email,httpOnly = false, secure = true, sameSite = Some(Cookie.SameSite.None), path = "/"), Cookie("role", rs.getString("role"),httpOnly = false, secure = true, sameSite = Some(Cookie.SameSite.None), path = "/"))
         } else {
           Unauthorized(Json.obj("status" -> "error", "message" -> "Invalid credentials"))
         }
